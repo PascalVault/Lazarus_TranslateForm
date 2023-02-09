@@ -3,7 +3,7 @@ unit Translator;
 {$mode objfpc}{$H+}
 
 //Author: domasz
-//Version: 0.1 (2023-02-09)
+//Version: 0.2 (2023-02-09)
 //Licence: MIT
 
 interface
@@ -18,6 +18,7 @@ uses
 
 var Translations: TStringList;
     OrgText: TStringList;
+    AllText: TStringList;
     GlobalLang: String;
     TransDir: String;
 
@@ -35,6 +36,9 @@ function _(Str: String): String;
 var Hash: String;
 begin
   Hash := DoHash(Str);
+
+  if AllText.IndexOfName(Hash) < 0 then AllText.Add(Hash + '=' + Str);
+
   Result := Translations.Values[Hash];
   if Result = '' then Result := Str;
 end;
@@ -51,12 +55,12 @@ var List: TStringList;
 begin
   List := TStringList.Create;
 
-  for i:=0 to OrgText.Count-1 do begin
-    Str := OrgText.ValueFromIndex[i];
+  for i:=0 to AllText.Count-1 do begin
+    Str := AllText.ValueFromIndex[i];
 
     if (Str = '') or (Str = '-') then continue;
 
-    List.Add(DoHash(Str) + '=' + Str);
+    List.Add(AllText[i]);
   end;
 
   try
@@ -112,6 +116,7 @@ begin
   finally
   end;
 
+  TrComponent(Form);
   Tr(Form);
 end;
 
@@ -119,9 +124,11 @@ initialization
 TransDir := 'lang';
 Translations := TStringList.Create;
 OrgText := TStringList.Create;
+AllText := TStringList.Create;
 
 finalization
 Translations.Free;
 OrgText.Free;
+AllText.Free;
 
 end.
