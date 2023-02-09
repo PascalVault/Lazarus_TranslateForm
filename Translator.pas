@@ -104,7 +104,7 @@ var FName: String;
 begin
   GlobalLang := Lang;
 
-  FName := TransDir + '\' + Lang + '.txt';
+  FName := TransDir + DirectorySeparator + Lang + '.txt';
 
   if FileExists(FName) then
   try
