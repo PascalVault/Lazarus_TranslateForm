@@ -16,3 +16,7 @@ Translate your application to other languages, easily!
     end;
 `
 Now when you have original_text.txt you just copy & paste its contents into a translation service (like Google Translate), translate to any language you want (for example German) and save the output as "de.txt". And now your application is ready for German speakers.
+
+By default languages files are loaded by "lang" dir but you can change it with:
+
+    SetTranlationDir("other dir") 
